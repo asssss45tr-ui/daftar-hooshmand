@@ -1,0 +1,45 @@
+plugins {
+    id 'com.android.application'
+}
+
+def runNumber = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInteger()
+
+android {
+    namespace 'ir.daftar.hooshmand'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "ir.daftar.hooshmand"
+        minSdk 24
+        targetSdk 34
+        versionCode runNumber
+        versionName "1.0." + runNumber
+    }
+
+    signingConfigs {
+        stable {
+            // کلید ثابت: باعث می‌شود هر نسخه‌ی جدید روی نسخه‌ی قبلی نصب شود و اطلاعات نماند
+            storeFile file('stable.jks')
+            storePassword 'daftar1405'
+            keyAlias 'daftar'
+            keyPassword 'daftar1405'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.stable
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
